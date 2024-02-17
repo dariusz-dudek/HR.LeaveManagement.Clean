@@ -1,4 +1,6 @@
+using System.Dynamic;
 using HR.LeaveManagement.Application.Contracts.Presistence;
+using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Domain.Common;
 using HR.LeaveManagement.Presistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +35,8 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         return await _context.Set<T>()
             .AsNoTracking()
-            .FirstOrDefaultAsync(q => q.Id == id) ?? throw new NullReferenceException();
+            .FirstOrDefaultAsync(q => q.Id == id) 
+            ?? throw new NotFoundException(typeof(T), id.ToString());
     }
 
     public async Task UpdateAsync(T entity)
