@@ -1,10 +1,10 @@
 using HR.LeaveManagement.Application.Contracts.Presistence;
 using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Domain;
-using HR.LeaveManagement.Presistence.DatabaseContext;
+using HR.LeaveManagement.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace HR.LeaveManagement.Presistence.Repositories;
+namespace HR.LeaveManagement.Persistence.Repositories;
 
 public class LeaveRequestRepository : GenericRepository<LeaveRequest>, ILeaveRequestRepository
 {

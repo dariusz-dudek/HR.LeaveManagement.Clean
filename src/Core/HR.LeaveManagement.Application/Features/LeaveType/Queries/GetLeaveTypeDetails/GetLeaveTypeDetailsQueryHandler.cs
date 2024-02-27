@@ -2,9 +2,11 @@ using AutoMapper;
 using HR.LeaveManagement.Application.Contracts.Presistence;
 using HR.LeaveManagement.Application.Exceptions;
 using MediatR;
+// ReSharper disable ConvertToPrimaryConstructor
+// ReSharper disable InconsistentNaming
 
 namespace HR.LeaveManagement.Application.Features.LeaveType.Queries.GetLeaveTypeDetails;
-public class GetLeaveTypeDetailsQueryHandler : IRequestHandler<GetLeaveTypeDeteilsQuery, LeaveTypeDetailsDto>
+public class GetLeaveTypeDetailsQueryHandler : IRequestHandler<GetLeaveTypeDetailsQuery, LeaveTypeDetailsDto>
 {
     private readonly IMapper _mapper;
     private readonly ILeaveTypeRepository _leaveTypeRepository;
@@ -14,7 +16,7 @@ public class GetLeaveTypeDetailsQueryHandler : IRequestHandler<GetLeaveTypeDetei
         _mapper = mapper;
         _leaveTypeRepository = leaveTypeRepository;
     }
-    public async Task<LeaveTypeDetailsDto> Handle(GetLeaveTypeDeteilsQuery request, CancellationToken cancellationToken)
+    public async Task<LeaveTypeDetailsDto> Handle(GetLeaveTypeDetailsQuery request, CancellationToken cancellationToken)
     {
         // Query the database
         var leaveType = await _leaveTypeRepository.GetByIdAsync(request.Id);

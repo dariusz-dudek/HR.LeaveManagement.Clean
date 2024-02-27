@@ -3,6 +3,8 @@ using HR.LeaveManagement.Application.Models.Email;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+// ReSharper disable ConvertToPrimaryConstructor
+// ReSharper disable InconsistentNaming
 
 namespace HR.LeaveManagement.Infrastructure.EmailService;
 public class EmailSender : IEmailSender

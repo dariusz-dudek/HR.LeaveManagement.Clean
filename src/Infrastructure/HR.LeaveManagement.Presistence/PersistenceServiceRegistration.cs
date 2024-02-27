@@ -1,19 +1,18 @@
-﻿using System.Net.Security;
-using HR.LeaveManagement.Application.Contracts.Presistence;
-using HR.LeaveManagement.Presistence.DatabaseContext;
-using HR.LeaveManagement.Presistence.Repositories;
+﻿using HR.LeaveManagement.Application.Contracts.Presistence;
+using HR.LeaveManagement.Persistence.DatabaseContext;
+using HR.LeaveManagement.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HR.LeaveManagement.Presistence;
-public static class PresistenceServiceRegistration
+namespace HR.LeaveManagement.Persistence;
+public static class PersistenceServiceRegistration
 {
-    public static IServiceCollection AddPresistenceServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<HrDatabaseContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("HrDatabaseConnectionString"));
+            options.UseSqlServer(configuration.GetConnectionString("HrDatabaseConnectionString"));
             // "Server=localhost:5432;User Id=postgres;Password=postgrespw;Database=auctions"
         });
 

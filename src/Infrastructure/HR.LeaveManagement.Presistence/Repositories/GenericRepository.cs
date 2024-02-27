@@ -2,10 +2,10 @@ using System.Dynamic;
 using HR.LeaveManagement.Application.Contracts.Presistence;
 using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Domain.Common;
-using HR.LeaveManagement.Presistence.DatabaseContext;
+using HR.LeaveManagement.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace HR.LeaveManagement.Presistence.Repositories;
+namespace HR.LeaveManagement.Persistence.Repositories;
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
     protected readonly HrDatabaseContext _context;
@@ -31,18 +31,17 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         return await _context.Set<T>().AsNoTracking().ToListAsync();
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T?> GetByIdAsync(int id)
     {
         return await _context.Set<T>()
             .AsNoTracking()
-            .FirstOrDefaultAsync(q => q.Id == id) 
-            ?? throw new NotFoundException(typeof(T), id.ToString());
+            .FirstOrDefaultAsync(q => q.Id == id);
     }
 
     public async Task UpdateAsync(T entity)
     {
         _context.Update(entity);
-        _ = _context.Entry(entity).State == EntityState.Modified;
+        _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 }
