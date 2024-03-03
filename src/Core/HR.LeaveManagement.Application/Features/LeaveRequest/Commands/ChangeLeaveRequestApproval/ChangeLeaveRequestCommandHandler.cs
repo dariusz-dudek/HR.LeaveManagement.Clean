@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Application.Contracts.Email;
+using HR.LeaveManagement.Application.Contracts.Logging;
 using HR.LeaveManagement.Application.Contracts.Presistence;
 using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Application.Models.Email;
@@ -15,19 +16,22 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.ChangeLe
         private readonly IEmailSender _emailSender;
         private readonly ILeaveAllocationRepository _allocationRepository;
         private readonly IMapper _mapper;
+        private readonly IAppLogger<ChangeLeaveRequestCommandHandler> _logger;
 
         public ChangeLeaveRequestCommandHandler(
             ILeaveRequestRepository requestRepository, 
             ILeaveTypeRepository typeRepository, 
             IEmailSender emailSender, 
             ILeaveAllocationRepository allocationRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IAppLogger<ChangeLeaveRequestCommandHandler> logger)
         {
             _requestRepository = requestRepository;
             _typeRepository = typeRepository;
             _emailSender = emailSender;
             _allocationRepository = allocationRepository;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task<Unit> Handle(ChangeLeaveRequestApprovalCommand request, CancellationToken cancellationToken)
         {
@@ -66,7 +70,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.ChangeLe
             }
             catch (Exception e)
             {
-                //log error
+                _logger.LogWarning(e.Message);
             }
 
             return Unit.Value;

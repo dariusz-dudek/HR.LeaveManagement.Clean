@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Contracts/Presistence/" />
-    <Folder Include="Features\LeaveRequest\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

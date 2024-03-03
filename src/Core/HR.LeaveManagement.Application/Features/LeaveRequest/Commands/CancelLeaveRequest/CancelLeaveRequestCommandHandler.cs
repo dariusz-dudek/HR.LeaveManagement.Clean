@@ -1,4 +1,5 @@
 ﻿using HR.LeaveManagement.Application.Contracts.Email;
+using HR.LeaveManagement.Application.Contracts.Logging;
 using HR.LeaveManagement.Application.Contracts.Presistence;
 using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Application.Models.Email;
@@ -11,13 +12,15 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CancelLe
         private readonly ILeaveRequestRepository _requestRepository;
         private readonly ILeaveAllocationRepository _allocationRepository;
         private readonly IEmailSender _emailSender;
+        private readonly IAppLogger<CancelLeaveRequestCommandHandler> _logger;
 
         // ReSharper disable once ConvertToPrimaryConstructor
-        public CancelLeaveRequestCommandHandler(ILeaveRequestRepository requestRepository, ILeaveAllocationRepository allocationRepository, IEmailSender emailSender)
+        public CancelLeaveRequestCommandHandler(ILeaveRequestRepository requestRepository, ILeaveAllocationRepository allocationRepository, IEmailSender emailSender, IAppLogger<CancelLeaveRequestCommandHandler> logger)
         {
             _requestRepository = requestRepository;
             _allocationRepository = allocationRepository;
             _emailSender = emailSender;
+            _logger = logger;
         }
 
         public async Task<Unit> Handle(CancelLeaveRequestCommand request, CancellationToken cancellationToken)
@@ -58,8 +61,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CancelLe
             }
             catch (Exception e)
             {
-                //Log error
-                throw;
+                _logger.LogWarning(e.Message);
             }
 
             return Unit.Value;
